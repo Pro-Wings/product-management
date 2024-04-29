@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.prowings.product_management.dao.ProductRepository;
@@ -78,6 +80,48 @@ public class ProductServiceImpl implements ProductService{
 	public List<Product> getAllProductsSortBy() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<Product> getAllProductsWithCatagoryAndPrice(String catagory, double price) {
+		
+		return productRepository.findByCatagoryOrPrice(catagory, price);
+	}
+
+	@Override
+	public List<Product> getAllProductsNameStartingWith(String startingWith) {
+		
+		return productRepository.findByNameStartingWith(startingWith);
+	}
+
+	@Override
+	public Integer getProductCountByCatagory(String catagory) {
+		
+		return productRepository.countByCatagory(catagory);
+	}
+
+	@Override
+	public Boolean existCatagory(String catagory) {
+
+		return productRepository.existsByCatagory(catagory);
+//		int res = productRepository.existsByCatagory(catagory);
+//		
+//		if(res>0)
+//			return true;
+//		else
+//			return false;
+	}
+
+	@Override
+	public List<Product> getAllProductsWithinPriceRange(double minPrice, double maxPrice) {
+		
+		return productRepository.findByPriceBetween(minPrice, maxPrice);
+	}
+
+	@Override
+	public Page<Product> getAllProductsPagination(Pageable pageable) {
+		
+		return productRepository.findAll(pageable);
 	}
 
 }
